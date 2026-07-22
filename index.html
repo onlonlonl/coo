@@ -103,7 +103,7 @@ function mkMsg(text,dur,time,isIris,audioUrl){
     if(audioUrl)ww.onclick=function(){playAudio(audioUrl)};
     bubble.appendChild(ww);
   }
-  var tx=document.createElement('div');tx.className='bubble-text';tx.textContent=text||'';
+  var tx=document.createElement('div');tx.className='bubble-text';tx.textContent=(text||'').replace(/\[[\w\s]+\]\s*/g,'');
   bubble.appendChild(tx);
   var meta=document.createElement('div');meta.className='bubble-meta';
   if(dur){var ds=document.createElement('span');ds.textContent=dur.toFixed(1)+'s';meta.appendChild(ds)}
