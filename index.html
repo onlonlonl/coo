@@ -23,14 +23,14 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#FDF5F6;color
 .empty-state{text-align:center;padding:100px 20px;color:#D4B0B0;font-size:13px}
 .bottom-bar{flex-shrink:0;padding:10px 16px 28px;background:#FDF5F6;border-top:1px solid #F0E0E2}
 .rec-row{display:flex;align-items:center;gap:10px}
-.rec-tab{flex:1;height:40px;border-radius:20px;border:1.5px solid #E0CCCE;background:#F8ECEE;color:#C08888;font-size:13px;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;transition:background 0.15s;font-family:inherit;position:relative;overflow:hidden}
+.rec-tab{flex:1;height:40px;border-radius:20px;border:1.5px solid #E0CCCE;background:#F8ECEE;color:#C08888;font-size:13px;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;transition:background 0.15s;font-family:inherit}
 .rec-tab.active{background:#E8C0C4}
 .rec-timer{font-size:12px;color:#C08888;font-variant-numeric:tabular-nums;min-width:40px;text-align:center}
 .toast{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:rgba(180,120,120,0.9);color:#fff;padding:10px 22px;border-radius:18px;font-size:13px;z-index:100;opacity:0;transition:opacity 0.3s;pointer-events:none}
 .toast.show{opacity:1}
 .messages::-webkit-scrollbar{width:2px}
 .messages::-webkit-scrollbar-thumb{background:#E8D0D2;border-radius:2px}
-#debug{position:fixed;top:4px;left:4px;font-size:9px;color:#ccc;z-index:999;pointer-events:none}
+#debug{position:fixed;top:4px;left:4px;font-size:9px;color:#ccc;z-index:999;pointer-events:none;max-width:90%}
 </style>
 </head>
 <body>
@@ -41,7 +41,10 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#FDF5F6;color
 <script>
 var SB='https://bqzuoqeaqqhylukicvqa.supabase.co';
 var hs=location.hash.slice(1),P={};
-hs.split('&').forEach(function(p){var kv=p.split('=');if(kv[0])P[kv[0]]=decodeURIComponent(kv[1]||'')});
+hs.split('&').forEach(function(p){
+  var i=p.indexOf('=');
+  if(i>0)P[p.substring(0,i)]=decodeURIComponent(p.substring(i+1));
+});
 var KEY=P.key||'',TOKEN=P.token||'';
 var API='https://luxiris.duckdns.org/coo';
 var IRIS_AV='https://bqzuoqeaqqhylukicvqa.supabase.co/storage/v1/object/public/rack-icons/bw-1783328096778.jpg';
@@ -57,6 +60,8 @@ var msgs=[];
 
 function log(s){dbg.textContent=s;console.log(s)}
 function showToast(s){toastEl.textContent=s;toastEl.classList.add('show');setTimeout(function(){toastEl.classList.remove('show')},3000)}
+
+log('key:'+KEY.length+' token:'+TOKEN.length);
 
 function drawWave(cv,dur){
   var W=120,H=22;cv.width=W;cv.height=H;
@@ -114,10 +119,16 @@ var curAudio=null;
 function playAudio(u){if(curAudio){curAudio.pause();curAudio=null}curAudio=new Audio(u);curAudio.play().catch(function(){})}
 
 function load(){
-  if(!KEY){log('no key');return}
+  if(!KEY){log('no key in hash');return}
   fetch(SB+'/rest/v1/coo_messages?order=created_at.asc&limit=50',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}})
-  .then(function(r){return r.json()})
-  .then(function(data){msgs=data;render();log('loaded '+data.length)})
+  .then(function(r){
+    log('load status:'+r.status);
+    return r.json();
+  })
+  .then(function(data){
+    if(Array.isArray(data)){msgs=data;render();log('loaded '+data.length)}
+    else{log('load err: '+JSON.stringify(data).substring(0,80))}
+  })
   .catch(function(e){log('load err: '+e.message)});
 }
 
@@ -129,7 +140,7 @@ function startRec(){
   if(recording)return;
   log('requesting mic...');
   navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
-    log('mic ok, recording...');
+    log('mic ok');
     recording=true;
     var mt='';
     try{if(MediaRecorder.isTypeSupported('audio/webm'))mt='audio/webm'}catch(e){}
@@ -137,7 +148,7 @@ function startRec(){
     chunks=[];
     mediaRec.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data)};
     mediaRec.onstop=function(){
-      log('rec stopped, sending...');
+      log('stopped, size:'+chunks.reduce(function(a,b){return a+b.size},0));
       stream.getTracks().forEach(function(t){t.stop()});
       var blob=new Blob(chunks,{type:mediaRec.mimeType||'audio/mp4'});
       sendAudio(blob,mediaRec.mimeType||'audio/mp4');
@@ -156,8 +167,8 @@ function startRec(){
 }
 
 function stopRec(){
-  log('stopRec called, recording='+recording);
   if(!recording)return;
+  log('stopping...');
   if(mediaRec&&mediaRec.state==='recording'){
     mediaRec.stop();
   }
@@ -170,18 +181,19 @@ function stopRec(){
 function sendAudio(blob,mt){
   if(blob.size<500){log('too short');return}
   showToast('sending...');
+  log('sending '+blob.size+'b, token:'+TOKEN.length);
   var ext=mt.indexOf('webm')>=0?'.webm':'.m4a';
   var form=new FormData();
   form.append('file',blob,'voice'+ext);
   fetch(API,{method:'POST',headers:{'X-Coo-Token':TOKEN},body:form})
   .then(function(r){
-    log('response: '+r.status);
+    log('resp:'+r.status);
     if(r.ok){showToast('sent');load()}
-    else{r.text().then(function(t){log('err: '+t);showToast('error: '+r.status)})}
-  }).catch(function(e){log('send err: '+e.message);showToast('network error')});
+    else{r.text().then(function(t){log('err:'+t);showToast('error '+r.status)})}
+  }).catch(function(e){log('net err:'+e.message);showToast('network error')});
 }
 
-/* ── Touch/mouse events on window level ── */
+/* ── Touch/mouse ── */
 var pressing=false;
 
 recTab.addEventListener('touchstart',function(e){
@@ -206,7 +218,6 @@ window.addEventListener('mouseup',function(){
   if(pressing){pressing=false;stopRec()}
 });
 
-/* Prevent context menu on long press */
 recTab.addEventListener('contextmenu',function(e){e.preventDefault()});
 
 load();
