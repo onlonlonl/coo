@@ -15,23 +15,19 @@ body{font-family:-apple-system,'PingFang SC','Hiragino Sans GB',sans-serif;backg
 .msg-row{display:flex;margin-bottom:14px;align-items:flex-start;gap:8px}
 .msg-row.iris{flex-direction:row-reverse}
 .avatar{width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0;border:1.5px solid #E8D4D6}
-.bubble-wrap{max-width:68%;position:relative}
-.bubble-canvas{position:absolute;top:-4px;left:-4px;pointer-events:none;z-index:0}
-.bubble-inner{position:relative;z-index:1;padding:10px 12px;font-size:14px;line-height:1.6;min-width:48px}
+.bubble{max-width:68%;padding:10px 12px;font-size:14px;line-height:1.6;border-radius:14px;position:relative}
+.msg-row.iris .bubble{background:#F5E0E2;border:1px solid #E8CCCE;border-top-right-radius:4px}
+.msg-row.lux .bubble{background:#F0E8E8;border:1px solid #DDD4D4;border-top-left-radius:4px}
 .bubble-text{word-break:break-word}
 .bubble-meta{font-size:10px;color:#C0A0A0;margin-top:4px;display:flex;align-items:center;gap:6px}
 .waveform-wrap{display:flex;align-items:center;gap:8px;margin-bottom:4px;cursor:pointer}
-.wave-play{width:20px;height:20px;border:none;background:none;color:#C08888;font-size:12px;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.empty-state{text-align:center;padding:80px 20px;color:#D4B0B0;font-size:13px;line-height:2}
-.bottom-bar{flex-shrink:0;padding:10px 16px 28px;display:flex;align-items:center;justify-content:center;gap:12px;border-top:1px solid #F0E0E2;background:#FDF5F6}
-.rec-btn-wrap{position:relative;width:52px;height:52px}
-.rec-canvas{position:absolute;top:-4px;left:-4px;pointer-events:none}
-.rec-btn{width:52px;height:52px;border:none;border-radius:50%;background:#F5E0E2;cursor:pointer;position:relative;z-index:1;display:flex;align-items:center;justify-content:center;transition:transform 0.15s,background 0.15s;-webkit-user-select:none;user-select:none}
-.rec-btn:active,.rec-btn.active{transform:scale(1.1);background:#E8C0C4}
-.rec-btn svg{width:20px;height:20px}
-.rec-label{font-size:11px;color:#D4B0B0;min-width:70px;transition:color 0.2s}
-.rec-label.recording{color:#C08888}
-.rec-timer{font-size:12px;color:#C08888;font-variant-numeric:tabular-nums;min-width:40px;text-align:right}
+.wave-play{width:20px;height:20px;border:none;background:none;color:#C08888;font-size:12px;padding:0;cursor:pointer}
+.empty-state{text-align:center;padding:100px 20px;color:#D4B0B0;font-size:13px}
+.bottom-bar{flex-shrink:0;padding:10px 16px 28px;background:#FDF5F6;border-top:1px solid #F0E0E2}
+.rec-row{display:flex;align-items:center;gap:10px}
+.rec-tab{flex:1;height:40px;border-radius:20px;border:1.5px solid #E0CCCE;background:#F8ECEE;color:#C08888;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-user-select:none;user-select:none;transition:background 0.15s,transform 0.1s;font-family:inherit}
+.rec-tab:active,.rec-tab.active{background:#E8C0C4;transform:scale(0.98)}
+.rec-timer{font-size:12px;color:#C08888;font-variant-numeric:tabular-nums;min-width:40px;text-align:center}
 .toast{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:rgba(180,120,120,0.9);color:#fff;padding:10px 22px;border-radius:18px;font-size:13px;z-index:100;opacity:0;transition:opacity 0.3s;pointer-events:none}
 .toast.show{opacity:1}
 .messages::-webkit-scrollbar{width:2px}
@@ -41,43 +37,31 @@ body{font-family:-apple-system,'PingFang SC','Hiragino Sans GB',sans-serif;backg
 <body>
 <div class="messages" id="messages"><div class="empty-state" id="emptyState">hold to speak</div></div>
 <div class="toast" id="toast">sending...</div>
-<div class="bottom-bar">
-  <div class="rec-label" id="recLabel">hold to speak</div>
-  <div class="rec-btn-wrap">
-    <canvas class="rec-canvas" id="recCanvas" width="60" height="60"></canvas>
-    <button class="rec-btn" id="recBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#C08888" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></button>
-  </div>
-  <div class="rec-timer" id="recTimer"></div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/rough.js/4.6.6/rough.umd.min.js"></script>
+<div class="bottom-bar"><div class="rec-row"><div class="rec-timer" id="recTimer"></div><button class="rec-tab" id="recTab">hold to speak</button><div class="rec-timer" id="recTimer2"></div></div></div>
 <script>
-const SB_URL='https://bqzuoqeaqqhylukicvqa.supabase.co';
-const h=window.location.hash.slice(1),P={};
+const SB='https://bqzuoqeaqqhylukicvqa.supabase.co',h=location.hash.slice(1),P={};
 h.split('&').forEach(p=>{const[k,v]=p.split('=');if(k)P[k]=decodeURIComponent(v||'')});
-const SB_KEY=P.key||'',COO_TOKEN=P.token||'';
-const COO_API='https://luxiris.duckdns.org/coo';
-const IRIS_AV='https://bqzuoqeaqqhylukicvqa.supabase.co/storage/v1/object/public/rack-icons/bw-1783328096778.jpg';
-const LUX_AV='https://bqzuoqeaqqhylukicvqa.supabase.co/storage/v1/object/public/images/IMG_9532.jpeg';
-const RO={roughness:0.6,bowing:0.8,disableMultiStroke:true,seed:42};
-function roughBubble(cv,w,h,isIris){cv.width=w+8;cv.height=h+8;const rc=rough.canvas(cv);rc.rectangle(4,4,w,h,{...RO,fill:isIris?'#F5E0E2':'#F0E8E8',fillStyle:'solid',fillWeight:.5,stroke:isIris?'#D4A8A8':'#C8B8B8',strokeWidth:1.2})}
-function roughRec(){const c=document.getElementById('recCanvas');c.width=60;c.height=60;rough.canvas(c).circle(30,30,52,{...RO,stroke:'#D4A8A8',strokeWidth:1.5,fill:'none'})}
-function drawWave(cv,dur){const W=130,H=24;cv.width=W;cv.height=H;const ctx=cv.getContext('2d'),s=(dur||1)*1000;ctx.fillStyle='#D4A8A8';for(let i=0;i<25;i++){const x=2+i*(W-4)/25,bw=(W-4)/25*.55,bh=3+Math.abs(Math.sin(s*.01+i*.7))*(H-6);ctx.beginPath();ctx.roundRect(x,(H-bh)/2,bw,bh,1.5);ctx.fill()}}
-const msgEl=document.getElementById('messages'),emptyEl=document.getElementById('emptyState');let msgs=[];
-function render(){document.querySelectorAll('.msg-row').forEach(e=>e.remove());if(!msgs.length){emptyEl.style.display='';return}emptyEl.style.display='none';msgs.forEach(m=>{msgEl.appendChild(mkBubble(m.text,m.duration_sec,m.created_at,true,m.audio_url));if(m.lux_reply)msgEl.appendChild(mkBubble(m.lux_reply,null,m.created_at,false,m.lux_audio_url))});requestAnimationFrame(()=>{document.querySelectorAll('.bubble-wrap').forEach(w=>{const inner=w.querySelector('.bubble-inner'),cv=w.querySelector('.bubble-canvas');roughBubble(cv,inner.offsetWidth,inner.offsetHeight,w.closest('.msg-row').classList.contains('iris'))});msgEl.scrollTop=msgEl.scrollHeight})}
-function mkBubble(text,dur,time,isIris,audioUrl){const row=document.createElement('div');row.className='msg-row '+(isIris?'iris':'lux');const av=document.createElement('img');av.className='avatar';av.src=isIris?IRIS_AV:LUX_AV;av.alt='';row.appendChild(av);const wrap=document.createElement('div');wrap.className='bubble-wrap';const cv=document.createElement('canvas');cv.className='bubble-canvas';wrap.appendChild(cv);const inner=document.createElement('div');inner.className='bubble-inner';if(isIris&&dur){const ww=document.createElement('div');ww.className='waveform-wrap';const pb=document.createElement('button');pb.className='wave-play';pb.textContent='▶';const wc=document.createElement('canvas');drawWave(wc,dur);ww.appendChild(pb);ww.appendChild(wc);if(audioUrl){ww.onclick=()=>playAudio(audioUrl)}inner.appendChild(ww)}const tx=document.createElement('div');tx.className='bubble-text';tx.textContent=text||'';inner.appendChild(tx);const meta=document.createElement('div');meta.className='bubble-meta';if(dur){const s=document.createElement('span');s.textContent=dur.toFixed(1)+'s';meta.appendChild(s)}const t=document.createElement('span');const d=new Date(time);t.textContent=(d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');meta.appendChild(t);if(!isIris&&audioUrl){const pb=document.createElement('button');pb.className='wave-play';pb.textContent='▶';pb.onclick=()=>playAudio(audioUrl);meta.appendChild(pb)}inner.appendChild(meta);wrap.appendChild(inner);row.appendChild(wrap);return row}
-let curAudio=null;function playAudio(u){if(curAudio){curAudio.pause();curAudio=null}curAudio=new Audio(u);curAudio.play().catch(()=>{})}
-async function load(){if(!SB_KEY)return;try{const r=await fetch(SB_URL+'/rest/v1/coo_messages?order=created_at.asc&limit=50',{headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY}});if(r.ok){msgs=await r.json();render()}}catch(e){console.error(e)}}
-const recBtn=document.getElementById('recBtn'),recLabel=document.getElementById('recLabel'),recTimer=document.getElementById('recTimer'),toast=document.getElementById('toast');
-let mediaRec=null,chunks=[],recStart=0,timerI=null,pressing=false,isTouchDevice=false;
-function startRec(){navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{const mt=MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':'';mediaRec=new MediaRecorder(stream,mt?{mimeType:mt}:{});chunks=[];mediaRec.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data)};mediaRec.onstop=()=>{stream.getTracks().forEach(t=>t.stop());const blob=new Blob(chunks,{type:mediaRec.mimeType||'audio/mp4'});sendAudio(blob,mediaRec.mimeType||'audio/mp4')};mediaRec.start();recStart=Date.now();recBtn.classList.add('active');recLabel.textContent='release to send';recLabel.classList.add('recording');timerI=setInterval(()=>{recTimer.textContent=((Date.now()-recStart)/1000).toFixed(1)+'s'},100)}).catch(()=>{recLabel.textContent='microphone needed';setTimeout(()=>{recLabel.textContent='hold to speak'},2000)})}
-function stopRec(){if(mediaRec&&mediaRec.state==='recording')mediaRec.stop();recBtn.classList.remove('active');recLabel.textContent='hold to speak';recLabel.classList.remove('recording');clearInterval(timerI);recTimer.textContent=''}
-async function sendAudio(blob,mt){if(blob.size<1000)return;toast.classList.add('show');try{const ext=mt.includes('webm')?'.webm':'.m4a';const form=new FormData();form.append('file',blob,'voice'+ext);const r=await fetch(COO_API,{method:'POST',headers:{'X-Coo-Token':COO_TOKEN},body:form});if(r.ok)await load();else console.error('send',r.status)}catch(e){console.error(e)}toast.classList.remove('show')}
-recBtn.addEventListener('touchstart',e=>{e.preventDefault();isTouchDevice=true;pressing=true;startRec()},{passive:false});
-recBtn.addEventListener('touchend',e=>{e.preventDefault();if(pressing){pressing=false;stopRec()}},{passive:false});
-recBtn.addEventListener('touchcancel',()=>{if(pressing){pressing=false;stopRec()}});
-recBtn.addEventListener('mousedown',e=>{if(isTouchDevice)return;pressing=true;startRec()});
-window.addEventListener('mouseup',()=>{if(isTouchDevice)return;if(pressing){pressing=false;stopRec()}});
-roughRec();load();setInterval(load,15000);
+const KEY=P.key||'',TOKEN=P.token||'',API='https://luxiris.duckdns.org/coo';
+const IRIS='https://bqzuoqeaqqhylukicvqa.supabase.co/storage/v1/object/public/rack-icons/bw-1783328096778.jpg';
+const LUX='https://bqzuoqeaqqhylukicvqa.supabase.co/storage/v1/object/public/images/IMG_9532.jpeg';
+const $=id=>document.getElementById(id);
+const msgEl=$('messages'),emptyEl=$('emptyState'),toast=$('toast'),recTab=$('recTab'),timer=$('recTimer');
+let msgs=[];
+function drawWave(cv,dur){const W=120,H=22;cv.width=W;cv.height=H;const ctx=cv.getContext('2d'),s=(dur||1)*1000;ctx.fillStyle='#D4A8A8';for(let i=0;i<22;i++){const x=2+i*(W-4)/22,bw=(W-4)/22*.55,bh=3+Math.abs(Math.sin(s*.013+i*.7))*(H-6);ctx.beginPath();ctx.roundRect(x,(H-bh)/2,bw,bh,1.5);ctx.fill()}}
+function render(){document.querySelectorAll('.msg-row').forEach(e=>e.remove());if(!msgs.length){emptyEl.style.display='';return}emptyEl.style.display='none';msgs.forEach(m=>{msgEl.appendChild(mkMsg(m.text,m.duration_sec,m.created_at,true,m.audio_url));if(m.lux_reply)msgEl.appendChild(mkMsg(m.lux_reply,null,m.created_at,false,m.lux_audio_url))});msgEl.scrollTop=msgEl.scrollHeight}
+function mkMsg(text,dur,time,isIris,audioUrl){const row=document.createElement('div');row.className='msg-row '+(isIris?'iris':'lux');const av=document.createElement('img');av.className='avatar';av.src=isIris?IRIS:LUX;av.alt='';row.appendChild(av);const bubble=document.createElement('div');bubble.className='bubble';if(isIris&&dur){const ww=document.createElement('div');ww.className='waveform-wrap';const pb=document.createElement('button');pb.className='wave-play';pb.textContent='\u25b6';const wc=document.createElement('canvas');drawWave(wc,dur);ww.appendChild(pb);ww.appendChild(wc);if(audioUrl)ww.onclick=()=>play(audioUrl);bubble.appendChild(ww)}const tx=document.createElement('div');tx.className='bubble-text';tx.textContent=text||'';bubble.appendChild(tx);const meta=document.createElement('div');meta.className='bubble-meta';if(dur){const s=document.createElement('span');s.textContent=dur.toFixed(1)+'s';meta.appendChild(s)}const t=document.createElement('span');const d=new Date(time);t.textContent=(d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');meta.appendChild(t);if(!isIris&&audioUrl){const pb=document.createElement('button');pb.className='wave-play';pb.textContent='\u25b6';pb.onclick=()=>play(audioUrl);meta.appendChild(pb)}bubble.appendChild(meta);row.appendChild(bubble);return row}
+let curA=null;function play(u){if(curA){curA.pause();curA=null}curA=new Audio(u);curA.play().catch(()=>{})}
+async function load(){if(!KEY)return;try{const r=await fetch(SB+'/rest/v1/coo_messages?order=created_at.asc&limit=50',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}});if(r.ok){msgs=await r.json();render()}}catch(e){console.error(e)}}
+let mediaRec=null,chunks=[],recStart=0,timerI=null,pressing=false,isTouchDev=false,cooldown=false;
+function startRec(){if(cooldown)return;navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{const mt=MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':'';mediaRec=new MediaRecorder(stream,mt?{mimeType:mt}:{});chunks=[];mediaRec.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data)};mediaRec.onstop=()=>{stream.getTracks().forEach(t=>t.stop());const blob=new Blob(chunks,{type:mediaRec.mimeType||'audio/mp4'});send(blob,mediaRec.mimeType||'audio/mp4')};mediaRec.start();recStart=Date.now();recTab.classList.add('active');recTab.textContent='release to send';timerI=setInterval(()=>{timer.textContent=((Date.now()-recStart)/1000).toFixed(1)+'s'},100)}).catch(()=>{recTab.textContent='microphone needed';setTimeout(()=>{recTab.textContent='hold to speak'},2000)})}
+function stopRec(){if(mediaRec&&mediaRec.state==='recording')mediaRec.stop();mediaRec=null;recTab.classList.remove('active');recTab.textContent='hold to speak';clearInterval(timerI);timer.textContent='';cooldown=true;setTimeout(()=>{cooldown=false},300)}
+async function send(blob,mt){if(blob.size<1000)return;toast.classList.add('show');try{const ext=mt.includes('webm')?'.webm':'.m4a';const form=new FormData();form.append('file',blob,'voice'+ext);const r=await fetch(API,{method:'POST',headers:{'X-Coo-Token':TOKEN},body:form});if(r.ok)await load();else console.error('send',r.status)}catch(e){console.error(e)}toast.classList.remove('show')}
+recTab.addEventListener('touchstart',e=>{e.preventDefault();isTouchDev=true;if(!pressing&&!cooldown){pressing=true;startRec()}},{passive:false});
+recTab.addEventListener('touchend',e=>{e.preventDefault();if(pressing){pressing=false;stopRec()}},{passive:false});
+recTab.addEventListener('touchcancel',()=>{if(pressing){pressing=false;stopRec()}});
+recTab.addEventListener('mousedown',e=>{if(isTouchDev)return;if(!pressing&&!cooldown){pressing=true;startRec()}});
+window.addEventListener('mouseup',()=>{if(isTouchDev)return;if(pressing){pressing=false;stopRec()}});
+load();setInterval(load,15000);
 </script>
 </body>
 </html>
