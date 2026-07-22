@@ -4,20 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Coo</title>
-<link rel="apple-touch-icon" href="data:image/png;base64,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">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden}
-body{font-family:-apple-system,'PingFang SC','Hiragino Sans GB',sans-serif;background:#FDF5F6;color:#5A4548;-webkit-tap-highlight-color:transparent;display:flex;flex-direction:column}
+html,body{width:100%;height:100%;overflow:hidden;touch-action:manipulation}
+body{font-family:-apple-system,'PingFang SC',sans-serif;background:#FDF5F6;color:#5A4548;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent}
 .messages{flex:1;overflow-y:auto;padding:16px 12px 8px;-webkit-overflow-scrolling:touch}
 .msg-row{display:flex;margin-bottom:14px;align-items:flex-start;gap:8px}
 .msg-row.iris{flex-direction:row-reverse}
 .avatar{width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0;border:1.5px solid #E8D4D6}
-.bubble{max-width:68%;padding:10px 12px;font-size:14px;line-height:1.6;border-radius:14px;position:relative}
+.bubble{max-width:68%;padding:10px 12px;font-size:14px;line-height:1.6;border-radius:14px}
 .msg-row.iris .bubble{background:#F5E0E2;border:1px solid #E8CCCE;border-top-right-radius:4px}
-.msg-row.lux .bubble{background:#F0E8E8;border:1px solid #DDD4D4;border-top-left-radius:4px}
+.msg-row.lux .bubble{background:#FFFFFF;border:1px solid #E8E0E0;border-top-left-radius:4px}
 .bubble-text{word-break:break-word}
 .bubble-meta{font-size:10px;color:#C0A0A0;margin-top:4px;display:flex;align-items:center;gap:6px}
 .waveform-wrap{display:flex;align-items:center;gap:8px;margin-bottom:4px;cursor:pointer}
@@ -25,43 +23,194 @@ body{font-family:-apple-system,'PingFang SC','Hiragino Sans GB',sans-serif;backg
 .empty-state{text-align:center;padding:100px 20px;color:#D4B0B0;font-size:13px}
 .bottom-bar{flex-shrink:0;padding:10px 16px 28px;background:#FDF5F6;border-top:1px solid #F0E0E2}
 .rec-row{display:flex;align-items:center;gap:10px}
-.rec-tab{flex:1;height:40px;border-radius:20px;border:1.5px solid #E0CCCE;background:#F8ECEE;color:#C08888;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-user-select:none;user-select:none;transition:background 0.15s,transform 0.1s;font-family:inherit}
-.rec-tab:active,.rec-tab.active{background:#E8C0C4;transform:scale(0.98)}
+.rec-tab{flex:1;height:40px;border-radius:20px;border:1.5px solid #E0CCCE;background:#F8ECEE;color:#C08888;font-size:13px;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;transition:background 0.15s;font-family:inherit;position:relative;overflow:hidden}
+.rec-tab.active{background:#E8C0C4}
 .rec-timer{font-size:12px;color:#C08888;font-variant-numeric:tabular-nums;min-width:40px;text-align:center}
 .toast{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:rgba(180,120,120,0.9);color:#fff;padding:10px 22px;border-radius:18px;font-size:13px;z-index:100;opacity:0;transition:opacity 0.3s;pointer-events:none}
 .toast.show{opacity:1}
 .messages::-webkit-scrollbar{width:2px}
 .messages::-webkit-scrollbar-thumb{background:#E8D0D2;border-radius:2px}
+#debug{position:fixed;top:4px;left:4px;font-size:9px;color:#ccc;z-index:999;pointer-events:none}
 </style>
 </head>
 <body>
 <div class="messages" id="messages"><div class="empty-state" id="emptyState">hold to speak</div></div>
-<div class="toast" id="toast">sending...</div>
-<div class="bottom-bar"><div class="rec-row"><div class="rec-timer" id="recTimer"></div><button class="rec-tab" id="recTab">hold to speak</button><div class="rec-timer" id="recTimer2"></div></div></div>
+<div class="toast" id="toast"></div>
+<div class="bottom-bar"><div class="rec-row"><div class="rec-timer" id="recTimer"></div><div class="rec-tab" id="recTab">hold to speak</div><div class="rec-timer" id="recTimer2"></div></div></div>
+<div id="debug"></div>
 <script>
-const SB='https://bqzuoqeaqqhylukicvqa.supabase.co',h=location.hash.slice(1),P={};
-h.split('&').forEach(p=>{const[k,v]=p.split('=');if(k)P[k]=decodeURIComponent(v||'')});
-const KEY=P.key||'',TOKEN=P.token||'',API='https://luxiris.duckdns.org/coo';
-const IRIS='https://bqzuoqeaqqhylukicvqa.supabase.co/storage/v1/object/public/rack-icons/bw-1783328096778.jpg';
-const LUX='https://bqzuoqeaqqhylukicvqa.supabase.co/storage/v1/object/public/images/IMG_9532.jpeg';
-const $=id=>document.getElementById(id);
-const msgEl=$('messages'),emptyEl=$('emptyState'),toast=$('toast'),recTab=$('recTab'),timer=$('recTimer');
-let msgs=[];
-function drawWave(cv,dur){const W=120,H=22;cv.width=W;cv.height=H;const ctx=cv.getContext('2d'),s=(dur||1)*1000;ctx.fillStyle='#D4A8A8';for(let i=0;i<22;i++){const x=2+i*(W-4)/22,bw=(W-4)/22*.55,bh=3+Math.abs(Math.sin(s*.013+i*.7))*(H-6);ctx.beginPath();ctx.roundRect(x,(H-bh)/2,bw,bh,1.5);ctx.fill()}}
-function render(){document.querySelectorAll('.msg-row').forEach(e=>e.remove());if(!msgs.length){emptyEl.style.display='';return}emptyEl.style.display='none';msgs.forEach(m=>{msgEl.appendChild(mkMsg(m.text,m.duration_sec,m.created_at,true,m.audio_url));if(m.lux_reply)msgEl.appendChild(mkMsg(m.lux_reply,null,m.created_at,false,m.lux_audio_url))});msgEl.scrollTop=msgEl.scrollHeight}
-function mkMsg(text,dur,time,isIris,audioUrl){const row=document.createElement('div');row.className='msg-row '+(isIris?'iris':'lux');const av=document.createElement('img');av.className='avatar';av.src=isIris?IRIS:LUX;av.alt='';row.appendChild(av);const bubble=document.createElement('div');bubble.className='bubble';if(isIris&&dur){const ww=document.createElement('div');ww.className='waveform-wrap';const pb=document.createElement('button');pb.className='wave-play';pb.textContent='\u25b6';const wc=document.createElement('canvas');drawWave(wc,dur);ww.appendChild(pb);ww.appendChild(wc);if(audioUrl)ww.onclick=()=>play(audioUrl);bubble.appendChild(ww)}const tx=document.createElement('div');tx.className='bubble-text';tx.textContent=text||'';bubble.appendChild(tx);const meta=document.createElement('div');meta.className='bubble-meta';if(dur){const s=document.createElement('span');s.textContent=dur.toFixed(1)+'s';meta.appendChild(s)}const t=document.createElement('span');const d=new Date(time);t.textContent=(d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');meta.appendChild(t);if(!isIris&&audioUrl){const pb=document.createElement('button');pb.className='wave-play';pb.textContent='\u25b6';pb.onclick=()=>play(audioUrl);meta.appendChild(pb)}bubble.appendChild(meta);row.appendChild(bubble);return row}
-let curA=null;function play(u){if(curA){curA.pause();curA=null}curA=new Audio(u);curA.play().catch(()=>{})}
-async function load(){if(!KEY)return;try{const r=await fetch(SB+'/rest/v1/coo_messages?order=created_at.asc&limit=50',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}});if(r.ok){msgs=await r.json();render()}}catch(e){console.error(e)}}
-let mediaRec=null,chunks=[],recStart=0,timerI=null,pressing=false,isTouchDev=false,cooldown=false;
-function startRec(){if(cooldown)return;navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{const mt=MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':'';mediaRec=new MediaRecorder(stream,mt?{mimeType:mt}:{});chunks=[];mediaRec.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data)};mediaRec.onstop=()=>{stream.getTracks().forEach(t=>t.stop());const blob=new Blob(chunks,{type:mediaRec.mimeType||'audio/mp4'});send(blob,mediaRec.mimeType||'audio/mp4')};mediaRec.start();recStart=Date.now();recTab.classList.add('active');recTab.textContent='release to send';timerI=setInterval(()=>{timer.textContent=((Date.now()-recStart)/1000).toFixed(1)+'s'},100)}).catch(()=>{recTab.textContent='microphone needed';setTimeout(()=>{recTab.textContent='hold to speak'},2000)})}
-function stopRec(){if(mediaRec&&mediaRec.state==='recording')mediaRec.stop();mediaRec=null;recTab.classList.remove('active');recTab.textContent='hold to speak';clearInterval(timerI);timer.textContent='';cooldown=true;setTimeout(()=>{cooldown=false},300)}
-async function send(blob,mt){if(blob.size<1000)return;toast.classList.add('show');try{const ext=mt.includes('webm')?'.webm':'.m4a';const form=new FormData();form.append('file',blob,'voice'+ext);const r=await fetch(API,{method:'POST',headers:{'X-Coo-Token':TOKEN},body:form});if(r.ok)await load();else console.error('send',r.status)}catch(e){console.error(e)}toast.classList.remove('show')}
-recTab.addEventListener('touchstart',e=>{e.preventDefault();isTouchDev=true;if(!pressing&&!cooldown){pressing=true;startRec()}},{passive:false});
-recTab.addEventListener('touchend',e=>{e.preventDefault();if(pressing){pressing=false;stopRec()}},{passive:false});
-recTab.addEventListener('touchcancel',()=>{if(pressing){pressing=false;stopRec()}});
-recTab.addEventListener('mousedown',e=>{if(isTouchDev)return;if(!pressing&&!cooldown){pressing=true;startRec()}});
-window.addEventListener('mouseup',()=>{if(isTouchDev)return;if(pressing){pressing=false;stopRec()}});
-load();setInterval(load,15000);
+var SB='https://bqzuoqeaqqhylukicvqa.supabase.co';
+var hs=location.hash.slice(1),P={};
+hs.split('&').forEach(function(p){var kv=p.split('=');if(kv[0])P[kv[0]]=decodeURIComponent(kv[1]||'')});
+var KEY=P.key||'',TOKEN=P.token||'';
+var API='https://luxiris.duckdns.org/coo';
+var IRIS_AV='https://bqzuoqeaqqhylukicvqa.supabase.co/storage/v1/object/public/rack-icons/bw-1783328096778.jpg';
+var LUX_AV='https://bqzuoqeaqqhylukicvqa.supabase.co/storage/v1/object/public/images/IMG_9532.jpeg';
+
+var msgEl=document.getElementById('messages');
+var emptyEl=document.getElementById('emptyState');
+var toastEl=document.getElementById('toast');
+var recTab=document.getElementById('recTab');
+var timerEl=document.getElementById('recTimer');
+var dbg=document.getElementById('debug');
+var msgs=[];
+
+function log(s){dbg.textContent=s;console.log(s)}
+function showToast(s){toastEl.textContent=s;toastEl.classList.add('show');setTimeout(function(){toastEl.classList.remove('show')},3000)}
+
+function drawWave(cv,dur){
+  var W=120,H=22;cv.width=W;cv.height=H;
+  var ctx=cv.getContext('2d'),s=(dur||1)*1000;
+  ctx.fillStyle='#D4A8A8';
+  for(var i=0;i<22;i++){
+    var x=2+i*(W-4)/22,bw=(W-4)/22*0.55;
+    var bh=3+Math.abs(Math.sin(s*0.013+i*0.7))*(H-6);
+    ctx.beginPath();ctx.roundRect(x,(H-bh)/2,bw,bh,1.5);ctx.fill();
+  }
+}
+
+function render(){
+  var rows=document.querySelectorAll('.msg-row');
+  for(var i=0;i<rows.length;i++)rows[i].remove();
+  if(!msgs.length){emptyEl.style.display='';return}
+  emptyEl.style.display='none';
+  for(var j=0;j<msgs.length;j++){
+    var m=msgs[j];
+    msgEl.appendChild(mkMsg(m.text,m.duration_sec,m.created_at,true,m.audio_url));
+    if(m.lux_reply)msgEl.appendChild(mkMsg(m.lux_reply,null,m.created_at,false,m.lux_audio_url));
+  }
+  msgEl.scrollTop=msgEl.scrollHeight;
+}
+
+function mkMsg(text,dur,time,isIris,audioUrl){
+  var row=document.createElement('div');
+  row.className='msg-row '+(isIris?'iris':'lux');
+  var av=document.createElement('img');
+  av.className='avatar';av.src=isIris?IRIS_AV:LUX_AV;av.alt='';
+  row.appendChild(av);
+  var bubble=document.createElement('div');
+  bubble.className='bubble';
+  if(isIris&&dur){
+    var ww=document.createElement('div');ww.className='waveform-wrap';
+    var pb=document.createElement('button');pb.className='wave-play';pb.textContent='\u25b6';
+    var wc=document.createElement('canvas');drawWave(wc,dur);
+    ww.appendChild(pb);ww.appendChild(wc);
+    if(audioUrl)ww.onclick=function(){playAudio(audioUrl)};
+    bubble.appendChild(ww);
+  }
+  var tx=document.createElement('div');tx.className='bubble-text';tx.textContent=text||'';
+  bubble.appendChild(tx);
+  var meta=document.createElement('div');meta.className='bubble-meta';
+  if(dur){var ds=document.createElement('span');ds.textContent=dur.toFixed(1)+'s';meta.appendChild(ds)}
+  var ts=document.createElement('span');var d=new Date(time);
+  ts.textContent=(d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  meta.appendChild(ts);
+  if(!isIris&&audioUrl){var pb2=document.createElement('button');pb2.className='wave-play';pb2.textContent='\u25b6';pb2.onclick=function(){playAudio(audioUrl)};meta.appendChild(pb2)}
+  bubble.appendChild(meta);row.appendChild(bubble);
+  return row;
+}
+
+var curAudio=null;
+function playAudio(u){if(curAudio){curAudio.pause();curAudio=null}curAudio=new Audio(u);curAudio.play().catch(function(){})}
+
+function load(){
+  if(!KEY){log('no key');return}
+  fetch(SB+'/rest/v1/coo_messages?order=created_at.asc&limit=50',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}})
+  .then(function(r){return r.json()})
+  .then(function(data){msgs=data;render();log('loaded '+data.length)})
+  .catch(function(e){log('load err: '+e.message)});
+}
+
+/* ── Recording ── */
+var mediaRec=null,chunks=[],recStart=0,timerI=null;
+var recording=false;
+
+function startRec(){
+  if(recording)return;
+  log('requesting mic...');
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    log('mic ok, recording...');
+    recording=true;
+    var mt='';
+    try{if(MediaRecorder.isTypeSupported('audio/webm'))mt='audio/webm'}catch(e){}
+    mediaRec=new MediaRecorder(stream,mt?{mimeType:mt}:{});
+    chunks=[];
+    mediaRec.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data)};
+    mediaRec.onstop=function(){
+      log('rec stopped, sending...');
+      stream.getTracks().forEach(function(t){t.stop()});
+      var blob=new Blob(chunks,{type:mediaRec.mimeType||'audio/mp4'});
+      sendAudio(blob,mediaRec.mimeType||'audio/mp4');
+      recording=false;mediaRec=null;
+    };
+    mediaRec.start();
+    recStart=Date.now();
+    recTab.classList.add('active');
+    recTab.textContent='release to send';
+    timerI=setInterval(function(){timerEl.textContent=((Date.now()-recStart)/1000).toFixed(1)+'s'},100);
+  }).catch(function(e){
+    log('mic err: '+e.message);
+    recTab.textContent='microphone needed';
+    setTimeout(function(){recTab.textContent='hold to speak'},2000);
+  });
+}
+
+function stopRec(){
+  log('stopRec called, recording='+recording);
+  if(!recording)return;
+  if(mediaRec&&mediaRec.state==='recording'){
+    mediaRec.stop();
+  }
+  recTab.classList.remove('active');
+  recTab.textContent='hold to speak';
+  clearInterval(timerI);timerI=null;
+  timerEl.textContent='';
+}
+
+function sendAudio(blob,mt){
+  if(blob.size<500){log('too short');return}
+  showToast('sending...');
+  var ext=mt.indexOf('webm')>=0?'.webm':'.m4a';
+  var form=new FormData();
+  form.append('file',blob,'voice'+ext);
+  fetch(API,{method:'POST',headers:{'X-Coo-Token':TOKEN},body:form})
+  .then(function(r){
+    log('response: '+r.status);
+    if(r.ok){showToast('sent');load()}
+    else{r.text().then(function(t){log('err: '+t);showToast('error: '+r.status)})}
+  }).catch(function(e){log('send err: '+e.message);showToast('network error')});
+}
+
+/* ── Touch/mouse events on window level ── */
+var pressing=false;
+
+recTab.addEventListener('touchstart',function(e){
+  e.preventDefault();
+  if(!pressing){pressing=true;startRec()}
+},{passive:false});
+
+window.addEventListener('touchend',function(e){
+  if(pressing){pressing=false;stopRec()}
+},{passive:false});
+
+window.addEventListener('touchcancel',function(){
+  if(pressing){pressing=false;stopRec()}
+});
+
+recTab.addEventListener('mousedown',function(e){
+  e.preventDefault();
+  if(!pressing){pressing=true;startRec()}
+});
+
+window.addEventListener('mouseup',function(){
+  if(pressing){pressing=false;stopRec()}
+});
+
+/* Prevent context menu on long press */
+recTab.addEventListener('contextmenu',function(e){e.preventDefault()});
+
+load();
+setInterval(load,15000);
 </script>
 </body>
 </html>
